@@ -27,4 +27,10 @@ for conversation in conversations[:-1]:
     #Extracted line numbers ONLY +++$+++ is delimiter, Line numbers in last element after split
     #1:-1 to remove [] and replaces to remove ' and spaces
     conversations_ids.append(_conversation.split(','))
-    
+
+questions = []
+answers = []
+for conversation in conversations_ids:
+        for i in range(len(conversation ) - 1):
+            questions.append(id2line[conversation[i]])
+            answers.append(id2line[conversation[i+1]])
