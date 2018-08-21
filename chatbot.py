@@ -35,6 +35,7 @@ for conversation in conversations_ids:
             questions.append(id2line[conversation[i]])
             answers.append(id2line[conversation[i+1]])
             
+#This function replaces abbreviated words
 def clean_text(text):
     text = text.lower()
     text = re.sub(r"i'm" , "i am" , text)
@@ -43,19 +44,59 @@ def clean_text(text):
     text = re.sub(r"that's" , "that is" , text)
     text = re.sub(r"where's" , "where is" , text)
     text = re.sub(r"i'm" , "i am" , text)
-    text = re.sub(r"\'ll" , "will" , text)
-    text = re.sub(r"\'ve" , "have" , text)
-    text = re.sub(r"\'re" , "are" , text)
-    text = re.sub(r"\'d" , "would" , text)
+    text = re.sub(r"\'ll" , " will" , text)
+    text = re.sub(r"\'ve" , " have" , text)
+    text = re.sub(r"\'s" , " is" , text)
+    text = re.sub(r"\'re" , " are" , text)
+    text = re.sub(r"\'d" , " would" , text)
     text = re.sub(r"won't" , "will not" , text)
     text = re.sub(r"can't" , "cannot" , text)
-    text = re.sub(r"[-()\"#/@;:<>{}+=~|.?,]" . "" . text)
+    text = re.sub(r"[-()\"#/@;:<>{}+=~|.?,]" , "" , text)
+    text = re.sub(r"don't" , "do not" , text)
+    
     return text
     
+#Cleaning questions
+clean_questions = []  
+for question in questions:
+    clean_questions.append(clean_text(question))
     
-    
-    
-    
-    
-    
+#Cleaning answers
+clean_answers = []
+for answer in answers:
+    clean_answers.append(clean_text(answer)) 
+
+
+#Prepare wordcount
+word2count = {}
+
+for question in clean_questions:
+    for word in question.split():
+        if word not in word2count:
+            word2count[word] = 1
+        else:
+            word2count[word] += 1
+            
+for answer in clean_answers:
+    for word in answer.split():
+        if word not in word2count:
+            word2count[word] = 1
+        else:
+            word2count[word] += 1
+
+#Creating 2 dictionaries to map question words and answer words to a unique integer
+threshold = 15
+questionswords2int = {}
+word_number = 0
+for word, count in word2count.items():
+    if count >= threshold:
+        questionswords2int[word] = word_number
+        word_number += 1
+        
+answerswords2int = {}
+for word, count in word2count.items():
+    if count >= threshold:
+        answerswords2int[word] = word_number
+        word_number += 1
+        
     
