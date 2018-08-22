@@ -45,8 +45,7 @@ def clean_text(text):
     text = re.sub(r"where's" , "where is" , text)
     text = re.sub(r"i'm" , "i am" , text)
     text = re.sub(r"\'ll" , " will" , text)
-    text = re.sub(r"\'ve" , " have" , text)Back-to-School Sale
-Learn your way with courses from ₹640! The season's best sale starts now
+    text = re.sub(r"\'ve" , " have" , text)
     text = re.sub(r"\'s" , " is" , text)
     text = re.sub(r"\'re" , " are" , text)
     text = re.sub(r"\'d" , " would" , text)
@@ -142,8 +141,20 @@ for answer in clean_answers:
 sorted_clean_questions = []
 sorted_clean_answers = []
 for length in range(1 , 25+1):
-    for i in enumerate (questions_to_int):
+    for i in enumerate (questions_to_int): 
         if len(i[1]) == length:
             sorted_clean_questions.append(questions_to_int[i[0]])
             sorted_clean_answers.append(answers_to_int[i[0]])
             
+###################################################################################################
+
+#Defining the model
+            
+def model_inputs():
+    inputs = tf.placeholder(tf.int32 , [None,None] , name = 'input')
+    targets = tf.placeholder(tf.int32 , [None,None] , name = 'target')
+    lr = tf.placeholder(tf.float32,name = 'learning_rate')
+    keep_prob = tf.placeholder(tf.float32 , name = 'keep_prob') #For dropout
+    return inputs , targets , lr , keep_prob
+    
+    
