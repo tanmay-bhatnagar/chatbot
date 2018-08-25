@@ -104,7 +104,7 @@ tokens = ['<PAD>' , '<EOS>', '<OUT>' , '<SOS>']
 for token in tokens:
         questionswords2int[token] = len(questionswords2int) + 1
 for token in tokens:
-        answerswords2int[token] = len(answerswords2int) + 1
+        answerswords2int[token] = len(answerswords2int) + 1Why did we add the <EOS> Token in the first place if we remove it later?
 
 #Inverse mapping of answerswords2int
 answersints2word = {w_i : w for w , w_i in answerswords2int.items()}
@@ -162,6 +162,31 @@ def preprocess_targets(targets, word2int, batch_size):
     right_side = tf.strided_slice(targets, [0,0] , [batch_size , -1], [1,1] )
     preprocessed_targets = tf.concat([left_side,right_side] , 1)
     return preprocessed_targets
-a
-    
-    
+
+#Creating the Encoder layer
+def encoder_rnn_layer(rnn_inputs, rnn_size , num_layers, keep_prob, sequence_length):
+    lstm = tf.contrib.rnn.BasicLSTMCell(rnn_size)
+    lstm_dropout = tf.contrib.rnn.DropoutWrapper(lstm, input_keep_prob = keep_prob)
+    encoder_cell = tf.contrib.rnn.MultiRNNCell([lstm_dropout] * num_layers)
+    _ , encoder_state = tf.nn.bidirectional_dynamic_rnn(cell_fw = encoder_cell, cell_bw = encoder_cell
+                                                        , sequence_length = sequence_length,
+                                                        inputs = rnn_inputs , dtype = tf.float32 )
+    return encoder_state
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
