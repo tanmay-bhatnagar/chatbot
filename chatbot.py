@@ -406,3 +406,13 @@ for epoch in range(1, epochs + 1):
         print("My apologies, I cannot speak better anymore. This is the best I can do.")
         break
 print("Game Over")
+########## PART 4 - TESTING THE SEQ2SEQ MODEL ##########
+ 
+ 
+ 
+# Loading the weights and Running the session
+checkpoint = "./chatbot_weights.ckpt"
+session = tf.InteractiveSession()
+session.run(tf.global_variables_initializer())
+saver = tf.train.Saver()
+saver.restore(session, checkpoint)
